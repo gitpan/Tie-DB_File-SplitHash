@@ -1,0 +1,20 @@
+Tie::DB_File::SplitHash
+
+ Designed for support of file size limitted OSes. Transparently splits 
+ a DB_File database into as many distinct files as desired. Distributes
+ hash entries between the files using a randomization algorithm. 
+ Has the effect of allowing DB_File hashes to grow to the full size 
+ of the partition. Requires 'Digest::SHA1' and 'DB_File' to be installed.
+
+To install:
+
+perl Makefile.PL
+make
+make install
+
+Type 'perldoc Tie::DB_File::SplitHash' after installation for the documentation 
+or go to <URL:http://www.nihongo.org/snowhare/utilities/modules/tie-db_file-splithash/>
+
+Copyright 1999, Benjamin Franz (<URL:http://www.nihongo.org/snowhare/>) and 
+FreeRun Technologies, Inc. (<URL:http://www.freeruntech.com/>). All Rights Reserved.
+This software may be copied or redistributed under the same terms as Perl itelf.

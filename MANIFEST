@@ -1,0 +1,4 @@
+MANIFEST
+Makefile.PL
+README
+lib/Tie/DB_File/SplitHash.pm
