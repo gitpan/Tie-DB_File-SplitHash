@@ -6,6 +6,10 @@ Tie::DB_File::SplitHash
  Has the effect of allowing DB_File hashes to grow to the full size 
  of the partition. Requires 'Digest::SHA1' and 'DB_File' to be installed.
 
+CHANGES
+  1.01 2000.03.06 - Removed 'dependancies' that were causing bogus test failures
+                    Added 't/base.t' test for module.
+
 To install:
 
 perl Makefile.PL

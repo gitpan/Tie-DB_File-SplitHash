@@ -12,7 +12,7 @@ use Digest::SHA1 qw (sha1_hex);
 use Fcntl qw (:flock);
 use vars qw ($VERSION @ISA @EXPORT $DB_HASH);
 
-$VERSION = "1.00";
+$VERSION = "1.01";
 @ISA     = qw (Tie::Hash Exporter);
 @EXPORT  = qw(
         $DB_HASH 
@@ -95,6 +95,11 @@ the average.
 NOTE: Using an 'in-memory' database is not supported by this.
 Use DB_File directly if you want to do that. Additionally,
 BTREE and RECNO DBs are not supported.
+
+=head1 CHANGES
+
+1.01 2000.03.06 - Removed 'dependancies' on built-ins that caused 'make' failures
+                  and added install tests.
 
 =cut
 
@@ -367,6 +372,10 @@ Benjamin Franz
 =head1 TODO
 
 Testing.
+
+=head1 VERSION
+
+1.01 - 2000.03.06
 
 =cut
 
