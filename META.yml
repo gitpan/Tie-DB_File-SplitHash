@@ -1,6 +1,6 @@
 ---
 name: Tie-DB_File-SplitHash
-version: 1.02
+version: 1.03
 author:
   - Benjamin Franz <snowhare@nihongo.org>
 abstract: Transparently divides a DB_File hash into multiple smaller files
@@ -16,5 +16,5 @@ requires:
 provides:
   Tie::DB_File::SplitHash:
     file: lib/Tie/DB_File/SplitHash.pm
-    version: 1.02
+    version: 1.03
 generated_by: Module::Build version 0.261

@@ -80,15 +80,19 @@ data loss. I<Don't do it.>
 
 =head1 CHANGES
 
-1.02 2005.09.28 - Added Build.PL support, META.yml and Changes. Revised
-                  documentation, Extended build test coverage to 100%
-                  code coverage. Removed unneeded usage of 'Tie::Hash'.
-                  Fixed bug in NEXTKEY causing CLEAR to throw errors.
-                  Added LICENSES, GPL_License.txt and
-                  Artistic_License.txt.
+ 1.03 2005.09.29 - Fixed build test failure caused by root being able
+                   to create directories and files even in 'forbidden'
+                   directories. No functional changes.
 
-1.01 2000.03.06 - Removed 'dependancies' on built-ins that caused
-                  'make' failures and added install tests.
+ 1.02 2005.09.28 - Added Build.PL support, META.yml and Changes. Revised
+                   documentation, Extended build test coverage to 100%
+                   code coverage. Removed unneeded usage of 'Tie::Hash'.
+                   Fixed bug in NEXTKEY causing CLEAR to throw errors.
+                   Added LICENSES, GPL_License.txt and
+                   Artistic_License.txt.
+
+ 1.01 2000.03.06 - Removed 'dependancies' on built-ins that caused
+                   'make' failures and added install tests.
 
 =head1 METHODS
 
@@ -180,7 +184,7 @@ Benjamin Franz
 
 =head1 VERSION
 
-1.02 - 2005.09.28
+1.03 - 2005.09.29
 
 =head1 SEE ALSO
 

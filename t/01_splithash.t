@@ -65,7 +65,9 @@ sub test1 {
         mkdir($filename, 0000) || return "could not create scratch directory $filename: $!";
         my $db = tie %hash, 'Tie::DB_File::SplitHash', $extra_dir, $flags, $mode, $DB_HASH, $multi_n;
         if (defined $db) {
-            return "did not detect failure to tie database";
+            rm_db_dir ($extra_dir, $multi_n);
+            diag ("unexpectedly succeeded in making directory");
+            die;
         }
     };
     unless ($@) {
@@ -78,7 +80,8 @@ sub test1 {
         mkdir($filename, 0000) || return "could not create scratch directory $filename: $!";
         my $db = tie %hash, 'Tie::DB_File::SplitHash', $filename, $flags, $mode, $DB_HASH, $multi_n;
         if (defined $db) {
-            return "did not detect failure to tie database due to bad filesystem permissions";
+            diag ("unexpectedly succeeded in tieing in forbidden directory");
+            die;
         }
     };
     unless ($@) {
