@@ -80,6 +80,9 @@ data loss. I<Don't do it.>
 
 =head1 CHANGES
 
+ 1.04 2005.10.03 - Fixed build test failures under MSWindows.
+                   Merged db creation tests with newer tests.
+
  1.03 2005.09.29 - Fixed build test failure caused by root being able
                    to create directories and files even in 'forbidden'
                    directories. No functional changes.
@@ -184,7 +187,7 @@ Benjamin Franz
 
 =head1 VERSION
 
-1.03 - 2005.09.29
+1.04 - 2005.10.03
 
 =head1 SEE ALSO
 

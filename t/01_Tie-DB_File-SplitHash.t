@@ -21,7 +21,7 @@ if ($@) {
 }
 eval {
     require Test::More;
-    Test::More->import(tests => 3);
+    Test::More->import(tests => 4);
 };
 if ($@) {
     $|++;
@@ -49,6 +49,10 @@ ok (test_tied_hash());
 # Test 3
 ok (test_obj_hash());
 
+#########
+# Test 4
+ok (test_permissions());
+
 exit;
 
 #####################################################################
@@ -59,6 +63,129 @@ sub test_directory {
 }
 
 #####################################################################
+#####################################################################
+
+sub test_permissions {
+ 
+    {
+        my $filename = tempdir( DIR => test_directory(), CLEANUP => 1 );
+        my $multi_n = 4;
+        my $flags   = &O_RDWR() | &O_CREAT();
+        my $mode    = 0666;
+        my %hash;
+    
+        my $result = eval {
+            my $extra_dir = File::Spec->catdir($filename,'extra','level');
+            my $db = tie %hash, 'Tie::DB_File::SplitHash', $extra_dir, $flags, $mode, $DB_HASH, $multi_n;
+            if (defined $db) {
+                return 0;
+            }
+        };
+        unless ($@) {
+            diag ("did not detect failure to tie database due to missing container director");
+            return 0;
+        }
+    }
+
+    {
+        my $filename = tempdir( DIR => test_directory(), CLEANUP => 1 );
+        my $multi_n = 4;
+        my $flags   = &O_RDWR() | &O_CREAT();
+        my $mode    = 0666;
+        my %hash;
+    
+        my $result = eval {
+            my $extra_dir = File::Spec->catdir($filename,'extra');
+            mkdir($extra_dir, 0000) || return "could not create scratch directory $extra_dir: $!";
+            my $final_dir = File::Spec->catdir($extra_dir,'subdir');
+            my $db = tie %hash, 'Tie::DB_File::SplitHash', $final_dir, $flags, $mode, $DB_HASH, $multi_n;
+            if (defined $db) {
+                diag ("unexpectedly succeeded in making directory inside forbidden directory");
+                die;
+            }
+        };
+        unless ($@) {
+            diag("did not detect failure to tie database due to directory permissions");
+            return 0;
+        }
+    }
+
+    {
+        my $filename = tempdir( DIR => test_directory(), CLEANUP => 1 );
+        my $multi_n = 4;
+        my $flags   = &O_RDWR() | &O_CREAT();
+        my $mode    = 0666;
+        my %hash;
+    
+        my $result = eval {
+            my $extra_dir = File::Spec->catdir($filename,'extra');
+            unless (mkdir($extra_dir, 0000)) {
+                diag("failed to make test directory $extra_dir");
+                die;
+            }
+            my $db = tie %hash, 'Tie::DB_File::SplitHash', $extra_dir, $flags, $mode, $DB_HASH, $multi_n;
+            if (defined $db) {
+                diag ("unexpectedly succeeded in tieing database in forbidden directory");
+                die;
+            }
+        };
+        unless ($@) {
+            diag("did not detect failure to tie database in forbidden directory");
+            return 0;
+        }
+    }
+
+    {
+        my $filename = tempdir( DIR => test_directory(), CLEANUP => 1 );
+        my $multi_n = 4;
+        my $flags   = &O_RDWR() | &O_CREAT();
+        my $mode    = 0666;
+        my %hash;
+    
+        my $result = eval {
+            my $db_filename = File::Spec->catdir($filename, 'dbdir');
+            my $db = tie %hash, 'Tie::DB_File::SplitHash', $db_filename, $flags, $mode, $DB_HASH, $multi_n,1;
+        };
+        unless ($@) {
+            diag("did not detect incorrect number of parameters to tie");
+            return 0;
+        }
+    }
+
+    {
+        my $filename = tempdir( DIR => test_directory(), CLEANUP => 1 );
+        my $multi_n = 4;
+        my $flags   = &O_RDWR() | &O_CREAT();
+        my $mode    = 0666;
+        my %hash;
+    
+        my $db_filename = File::Spec->catdir($filename, 'dbdir');
+        my $database = tie %hash,  'Tie::DB_File::SplitHash', $db_filename, $flags, $mode, $DB_HASH, $multi_n;
+        unless ($database) {
+            diag ("Failed to tie database: $!");
+            return 0;
+        }    
+        $hash{'test'} = 'yes';
+        undef $database;
+        untie %hash;
+
+        $database = tie %hash,  'Tie::DB_File::SplitHash', $db_filename, $flags, $mode, $DB_HASH, $multi_n;
+        unless($database) {
+            diag ("Failed to re-tie database: $!");
+            return 0;
+        }
+        if ($hash{'test'} ne 'yes') {
+            diag ("Failed to read written value. Wrote 'yes', read '$hash{test}'");
+            return 0;
+        }
+    
+        undef $database;
+        untie %hash;
+    }
+
+	return 1;
+}
+
 #####################################################################
 
 sub test_tied_hash {
