@@ -80,6 +80,8 @@ data loss. I<Don't do it.>
 
 =head1 CHANGES
 
+ 1.05 2005.11.18 - Added version requirement for Pod::Coverage in build tests
+
  1.04 2005.10.03 - Fixed build test failures under MSWindows.
                    Merged db creation tests with newer tests.
 
@@ -187,7 +189,7 @@ Benjamin Franz
 
 =head1 VERSION
 
-1.04 - 2005.10.03
+1.05 - 2005.11.18
 
 =head1 SEE ALSO
 

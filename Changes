@@ -1,4 +1,6 @@
 
+ 1.05 2005.11.18 - Added version requirement for Pod::Coverage to tests
+
  1.04 2005.10.03 - Fixed build test failures under MSWindows.
                    Merged db creation tests with newer tests.
 

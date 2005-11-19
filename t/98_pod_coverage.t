@@ -11,6 +11,13 @@ if ($@) {
     exit;
 }
 eval {
+    require Pod::Coverage;
+};
+if ($@ or (not defined $Pod::Coverage::VERSION) or ($Pod::Coverage::VERSION < 0.17)) {
+    Test::More::plan (skip_all => "Pod::Coverage 0.17 required for testing POD coverage");
+    exit;
+}
+eval {
     require Test::Pod::Coverage;
 };
 if ($@ or (not defined $Test::Pod::Coverage::VERSION) or ($Test::Pod::Coverage::VERSION < 1.06)) {
